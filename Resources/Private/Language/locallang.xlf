@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-03T11:12:41Z" product-name="jv_add2group">
+		<header/>
+		<body>
+			<trans-unit id="add2group.name">
+				<source>Add user to group</source>
+			</trans-unit>
+			<trans-unit id="add2group.description">
+				<source>ask for confirmation before adding user to a group</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

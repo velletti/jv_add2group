@@ -1,0 +1,111 @@
+<T3DataStructure>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>Configuration</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.titel>
+						<TCEforms>
+							<label>Titel</label>
+							<config>
+								<type>input</type>
+
+							</config>
+						</TCEforms>
+					</settings.titel>
+					<settings.description>
+						<TCEforms>
+							<label>Description</label>
+							<config>
+								<type>text</type>
+
+							</config>
+						</TCEforms>
+					</settings.description>
+					<settings.button>
+						<TCEforms>
+							<label>Button</label>
+							<config>
+								<type>input</type>
+
+							</config>
+						</TCEforms>
+					</settings.button>
+					<settings.mustHaveGroups>
+						<TCEforms>
+							<label>mustHaveGroups</label>
+							<config>
+								<type>select</type>
+								<renderType>selectMultipleSideBySide</renderType>
+								<foreign_table>fe_groups</foreign_table>
+								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
+								<allowed>fe_groups</allowed>
+								<size>6</size>
+								<minitems>1</minitems>
+								<maxitems>10</maxitems>
+
+							</config>
+						</TCEforms>
+					</settings.mustHaveGroups>
+					<settings.mayNotHaveGroups>
+						<TCEforms>
+							<label>mayNotHaveGroup</label>
+							<config>
+								<type>select</type>
+								<renderType>selectMultipleSideBySide</renderType>
+								<foreign_table>fe_groups</foreign_table>
+								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
+								<allowed>fe_groups</allowed>
+								<size>6</size>
+								<minitems>1</minitems>
+								<maxitems>10</maxitems>
+
+							</config>
+						</TCEforms>
+					</settings.mayNotHaveGroups>
+					<settings.willGetGroups>
+						<TCEforms>
+							<label>willGetGroups</label>
+							<config>
+								<type>select</type>
+								<renderType>selectMultipleSideBySide</renderType>
+								<hideSuggest>false</hideSuggest>
+								<itemsProcFunc>JVE\\JvAdd2group\\UserFunc\\Flexforms->showClasses</itemsProcFunc>
+
+								<foreign_table>fe_groups</foreign_table>
+								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
+								<allowed>fe_groups</allowed>
+								<size>6</size>
+								<minitems>1</minitems>
+								<maxitems>10</maxitems>
+
+							</config>
+						</TCEforms>
+					</settings.willGetGroups>
+					<settings.classname>
+						<TCEforms>
+							<label>Classname</label>
+							<config>
+								<config>
+									<type>select</type>
+									<renderType>selectMultipleSideBySide</renderType>
+									<items>
+
+									</items>
+									<size>6</size>
+									<minitems>1</minitems>
+									<maxitems>10</maxitems>
+
+								</config>
+
+							</config>
+						</TCEforms>
+					</settings.classname>
+				</el>
+			</ROOT>
+		</sDEF>
+	</sheets>
+</T3DataStructure>
