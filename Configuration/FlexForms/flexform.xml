@@ -86,6 +86,19 @@
 							</config>
 						</TCEforms>
 					</settings.willGetGroups>
+
+					<settings.successMsg>
+						<TCEforms>
+							<label>Success Message</label>
+							<config>
+								<type>text</type>
+								<cols>30</cols>
+								<rows>4</rows>
+
+							</config>
+						</TCEforms>
+					</settings.successMsg>
+
 					<settings.classname>
 						<TCEforms>
 							<label>Classname</label>

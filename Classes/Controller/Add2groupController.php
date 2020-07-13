@@ -52,6 +52,7 @@ class Add2groupController extends ActionController
     public function addAction()
     {
         $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']));
+        $msg = trim( $this->settings['successMsg']) ;
 
         if ($feuser) {
 
@@ -64,10 +65,14 @@ class Add2groupController extends ActionController
             $GLOBALS["TSFE"]->fe_user->createUserSession($feuser);
             $GLOBALS["TSFE"]->fe_user->loginSessionStarted = TRUE;
             $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush();
-            $this->addFlashMessage("Okay" , null , \TYPO3\CMS\Core\Messaging\AbstractMessage::OK , false) ;
+            if( $msg ) {
+                $this->addFlashMessage($msg , null , \TYPO3\CMS\Core\Messaging\AbstractMessage::OK , false) ;
+            }
         } else {
             $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush();
-            $this->addFlashMessage("nothing to do " , null , \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR) ;
+            if( $msg) {
+                $this->addFlashMessage("Nothing to do" , null , \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR) ;
+            }
         }
         $this->redirect("show" ) ;
     }
