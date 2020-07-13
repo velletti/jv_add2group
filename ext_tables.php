@@ -16,6 +16,5 @@ call_user_func(
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature, 'FILE:EXT:jv_add2group/Configuration/FlexForms/flexform.xml');
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('jv_add2group', 'Configuration/TypoScript', 'Add Usergroup to Frontenduser');
 
-
     }
 );

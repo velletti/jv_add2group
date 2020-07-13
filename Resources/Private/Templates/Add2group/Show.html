@@ -3,11 +3,44 @@
 
 	<f:section name="content">
 
-
 		<f:flashMessages />
-		shOW SETTINGS
 
-		::: 1
+		<f:variable name="maySee">true</f:variable>
+		<f:if condition="{settings.mustHaveGroups}">
+			<f:variable name="maySee">false</f:variable>
+			<f:for as="group" each="{settings.mustHaveGroups}">
+				<f:security.ifHasRole role="{group}"><f:variable name="maySee">true</f:variable></f:security.ifHasRole>
+			</f:for>
+		</f:if>
+
+		<f:variable name="mayNotSee">false</f:variable>
+		<f:if condition="{settings.mayNotHaveGroups}">
+			<f:for as="group" each="{settings.mayNotHaveGroups}">
+				<f:security.ifHasRole role="{group}"><f:variable name="mayNotSee">true</f:variable></f:security.ifHasRole>
+			</f:for>
+		</f:if>
+		<f:if condition="{mayNotSee}">
+			<f:then>
+
+			</f:then>
+			<f:else>
+				<f:if condition="{maySee}">
+					<f:then>
+						<div class="alert alert-warning">
+							<h2>{settings.title}</h2>
+							<f:format.html ><f:spaceless>{settings.description}</f:spaceless></f:format.html>
+
+							<f:link.action class="btn btn-primary position-bottom position-right m-2" action="add"> {settings.button}
+							</f:link.action>
+						</div>
+					</f:then>
+					<f:else>
+
+					</f:else>
+				</f:if>
+			</f:else>
+		</f:if>
+
 
 	</f:section>
 </html>

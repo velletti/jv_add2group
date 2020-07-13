@@ -6,7 +6,7 @@
  * Time: 13:39
  */
 
-namespace JVVE\JvAdd2group\UserFunc;
+namespace JVE\JvAdd2group\UserFunc;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

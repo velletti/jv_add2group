@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
 	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-03T11:12:41Z" product-name="jv_add2group">
-		<header/>
+		<header></header>
+
 		<body>
 			<trans-unit id="add2group.name">
 				<source>Add user to group</source>
@@ -9,6 +10,24 @@
 			<trans-unit id="add2group.description">
 				<source>ask for confirmation before adding user to a group</source>
 			</trans-unit>
+            <trans-unit id="flexform.title">
+                <source>title or message</source>
+            </trans-unit>
+             <trans-unit id="flexform.description">
+                <source>Text shown to user</source>
+            </trans-unit>
+            <trans-unit id="flexform.mustHaveGroups">
+                <source>User must have Group(s) to see</source>
+            </trans-unit>
+             <trans-unit id="flexform.mayNotHaveGroup">
+                <source>Do not show if User has Group(s)</source>
+            </trans-unit>
+            <trans-unit id="flexform.willGetGroups">
+                <source>Group(s) User will get</source>
+            </trans-unit>
+             <trans-unit id="flexform.Classname">
+                <source>Finisher Class (optional)</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>
