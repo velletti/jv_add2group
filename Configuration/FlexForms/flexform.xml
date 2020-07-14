@@ -46,7 +46,7 @@
 								<foreign_table>fe_groups</foreign_table>
 								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
 								<allowed>fe_groups</allowed>
-								<size>6</size>
+								<size>4</size>
 								<minitems>0</minitems>
 								<maxitems>10</maxitems>
 
@@ -62,7 +62,7 @@
 								<foreign_table>fe_groups</foreign_table>
 								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
 								<allowed>fe_groups</allowed>
-								<size>6</size>
+								<size>4</size>
 								<minitems>0</minitems>
 								<maxitems>10</maxitems>
 
@@ -79,13 +79,30 @@
 								<foreign_table>fe_groups</foreign_table>
 								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
 								<allowed>fe_groups</allowed>
-								<size>6</size>
-								<minitems>1</minitems>
+								<size>4</size>
+								<minitems>0</minitems>
 								<maxitems>10</maxitems>
 
 							</config>
 						</TCEforms>
 					</settings.willGetGroups>
+					<settings.willLooseGroups>
+						<TCEforms>
+							<label>willLooseGroups</label>
+							<config>
+								<type>select</type>
+								<renderType>selectMultipleSideBySide</renderType>
+								<hideSuggest>false</hideSuggest>
+								<foreign_table>fe_groups</foreign_table>
+								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
+								<allowed>fe_groups</allowed>
+								<size>4</size>
+								<minitems>0</minitems>
+								<maxitems>10</maxitems>
+
+							</config>
+						</TCEforms>
+					</settings.willLooseGroups>
 
 					<settings.successMsg>
 						<TCEforms>

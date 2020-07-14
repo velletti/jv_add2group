@@ -51,38 +51,39 @@ class Add2groupController extends ActionController
      */
     public function addAction()
     {
-        $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']));
+        $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups']) );
         $msg = trim( $this->settings['successMsg']) ;
 
         if ($feuser) {
 
-            // Get the domain to be used for the cookie (if any):
-           //  $cookieDomain = $this->getCookieDomain();
-            // always use the base path:
-           // $cookiePath = '/';
             $GLOBALS['TSFE']->__set('loginUser', 1);
             $GLOBALS['TSFE']->fe_user->start();
             $GLOBALS["TSFE"]->fe_user->createUserSession($feuser);
             $GLOBALS["TSFE"]->fe_user->loginSessionStarted = TRUE;
-            $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush();
-            if( $msg ) {
-                $this->addFlashMessage($msg , null , \TYPO3\CMS\Core\Messaging\AbstractMessage::OK , false) ;
+            if( strlen( $msg ) > 1  ) {
+                $this->addFlashMessage($msg , null , AbstractMessage::OK ) ;
             }
         } else {
-            $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush();
-            if( $msg) {
-                $this->addFlashMessage("Nothing to do" , null , \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR) ;
+            if( strlen( $msg ) > 1  ) {
+                $this->addFlashMessage("Nothing to do" , null , AbstractMessage::ERROR) ;
             }
         }
         $this->redirect("show" ) ;
     }
 
-    private function updateUserGroupField( $group ) {
+    private function updateUserGroupField( $addGroups , $removeGroups) {
         $user = $GLOBALS['TSFE']->fe_user->user ;
         $uid = (int)$GLOBALS['TSFE']->fe_user->user['uid'] ;
         $oldGroups = $GLOBALS['TSFE']->fe_user->user['usergroup'] ;
         $oldGroups = GeneralUtility::uniqueList($oldGroups) ;
-        $newGroups = GeneralUtility::uniqueList($oldGroups . "," . $group) ;
+        $newGroups = GeneralUtility::uniqueList($oldGroups . "," . $addGroups) ;
+        $removeGroupsArray= GeneralUtility::trimExplode("," , $removeGroups , true) ;
+        if($removeGroupsArray) {
+            foreach ( $removeGroupsArray as $group ) {
+                $newGroups = GeneralUtility::rmFromList($group ,$newGroups) ;
+            }
+        }
+
         $user['usergroup'] = $newGroups ;
         if( $newGroups == $oldGroups) {
             return $user ;
@@ -109,6 +110,7 @@ class Add2groupController extends ActionController
         }
 
     }
+
     /**
 
     /**

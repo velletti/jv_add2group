@@ -3,7 +3,32 @@
 
 	<f:section name="content">
 
-		<f:flashMessages />
+		<f:flashMessages as="flashMessages">
+			<f:if condition="{flashMessages}">
+
+
+					<f:switch expression="{flashMessages.0.severity}">
+						<f:case value="0">
+							<f:variable name="alertClass">alert-success</f:variable>
+							<f:variable name="alertIcon">far fa-check-square</f:variable>
+						</f:case>
+						<f:case value="2">
+							<f:variable name="alertClass">alert-danger</f:variable>
+							<f:variable name="alertIcon">far fa-bug</f:variable>
+						</f:case>
+						<f:defaultCase>
+							<f:variable name="alertClass">alert-notice</f:variable>
+							<f:variable name="alertIcon">far fa-info</f:variable>
+						</f:defaultCase>
+					</f:switch>
+					<div class="alert {alertClass} my-3" title="{flashMessages.0.message}">
+						<div>
+							<i class="{alertIcon} mr-2 "></i>{flashMessages.0.message}
+						</div>
+					</div>
+
+			</f:if>
+		</f:flashMessages>
 
 		<f:variable name="maySee">true</f:variable>
 		<f:if condition="{settings.mustHaveGroups}">
