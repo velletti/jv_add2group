@@ -42,6 +42,11 @@ class Add2groupController extends ActionController
         $this->settings['mayNotHaveGroups'] = GeneralUtility::trimExplode("," , $this->settings['mayNotHaveGroups']  , true ) ;
         $this->settings['mustHaveGroups'] = GeneralUtility::trimExplode("," , $this->settings['mustHaveGroups']  , true ) ;
         $this->view->assign('settings', $this->settings);
+        $obj = $this->configurationManager->getContentObject()->data ;
+
+        $this->view->assign('uid', $obj['uid']);
+        $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . $user['tstamp'] ));
+
     }
 
     /**
@@ -51,24 +56,56 @@ class Add2groupController extends ActionController
      */
     public function addAction()
     {
-        $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups']) );
-        $msg = trim( $this->settings['successMsg']) ;
+        $obj = $this->configurationManager->getContentObject()->data ;
 
-        if ($feuser) {
+        $uid = false ;
+        if( $this->request->hasArgument('uid')) {
+            $uid = $this->request->getArgument('uid') ;
+            echo "<hr>Line "  . __LINE__ . " : ". $uid ;
 
-            $GLOBALS['TSFE']->__set('loginUser', 1);
-            $GLOBALS['TSFE']->fe_user->start();
-            $GLOBALS["TSFE"]->fe_user->createUserSession($feuser);
-            $GLOBALS["TSFE"]->fe_user->loginSessionStarted = TRUE;
-            if( strlen( $msg ) > 1  ) {
-                $this->addFlashMessage($msg , null , AbstractMessage::OK ) ;
-            }
-        } else {
-            if( strlen( $msg ) > 1  ) {
-                $this->addFlashMessage("Nothing to do" , null , AbstractMessage::ERROR) ;
+            if ( $uid != $obj['uid']) {
+                $uid = false ;
+                echo "<hr>Line "  . __LINE__ . " : ". $uid ;
             }
         }
-        $this->redirect("show" ) ;
+        echo "<hr>Line "  . __LINE__ . " : ". $uid ;
+        if( $uid && $this->request->hasArgument('hash')) {
+            $uid = $this->request->getArgument('hash') ;
+            $user = $GLOBALS['TSFE']->fe_user->user ;
+            echo "<hr>Line "  . __LINE__ . " : ". $uid ;
+            if ( $uid !=  hash( "sha256" , $obj['tstamp'] . $user['tstamp'] ) ) {
+                echo "<hr>Line "  . __LINE__ . " : ". $uid ;
+                $uid = false ;
+            }
+        } else {
+            $uid = false ;
+        }
+        echo "<hr>Line "  . __LINE__ . " : ". $uid ;
+        if( $uid ) {
+            $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups']) );
+
+            $msg = trim( $this->settings['successMsg']) ;
+
+            if ($feuser) {
+
+                $GLOBALS['TSFE']->__set('loginUser', 1);
+                $GLOBALS['TSFE']->fe_user->start();
+                $GLOBALS["TSFE"]->fe_user->createUserSession($feuser);
+                $GLOBALS["TSFE"]->fe_user->loginSessionStarted = TRUE;
+                if( strlen( $msg ) > 1  ) {
+                    $this->addFlashMessage($msg , null , AbstractMessage::OK ) ;
+                }
+            } else {
+                if( strlen( $msg ) > 1  ) {
+                    $this->addFlashMessage("Nothing to do" , null , AbstractMessage::ERROR) ;
+                }
+
+            }
+            $this->redirect("show" ) ;
+        } else {
+            $this->forward("show" ) ;
+        }
+
     }
 
     private function updateUserGroupField( $addGroups , $removeGroups) {

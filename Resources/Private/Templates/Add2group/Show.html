@@ -54,8 +54,7 @@
 						<div class="alert alert-warning">
 							<h2>{settings.title}</h2>
 							<f:format.html ><f:spaceless>{settings.description}</f:spaceless></f:format.html>
-
-							<f:link.action class="btn btn-primary position-bottom position-right m-2" action="add"> {settings.button}
+							<f:link.action action="add" arguments="{'uid': uid, 'hash': hash}" class="btn btn-primary position-bottom position-right m-2"> {settings.button}
 							</f:link.action>
 						</div>
 					</f:then>
