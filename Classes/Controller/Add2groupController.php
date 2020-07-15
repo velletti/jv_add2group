@@ -57,7 +57,7 @@ class Add2groupController extends ActionController
     public function addAction()
     {
         $obj = $this->configurationManager->getContentObject()->data ;
-
+        $user = $GLOBALS['TSFE']->fe_user->user ;
         $uid = false ;
         if( $this->request->hasArgument('uid')) {
             $uid = $this->request->getArgument('uid') ;
@@ -68,8 +68,7 @@ class Add2groupController extends ActionController
         }
         if( $uid && $this->request->hasArgument('hash')) {
             $uid = $this->request->getArgument('hash') ;
-            $user = $GLOBALS['TSFE']->fe_user->user ;
-            echo "<hr>Line "  . __LINE__ . " : ". $uid ;
+
             if ( $uid !=  hash( "sha256" , $obj['tstamp'] . $user['tstamp'] ) ) {
                 $uid = false ;
             }
@@ -96,7 +95,7 @@ class Add2groupController extends ActionController
                 }
 
             }
-            $this->redirect("show" ) ;
+            $this->redirect("show" , null, null , array("hash" => $user['tstamp'] ) ) ;
         } else {
             $this->forward("show" ) ;
         }
