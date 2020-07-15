@@ -61,26 +61,21 @@ class Add2groupController extends ActionController
         $uid = false ;
         if( $this->request->hasArgument('uid')) {
             $uid = $this->request->getArgument('uid') ;
-            echo "<hr>Line "  . __LINE__ . " : ". $uid ;
 
             if ( $uid != $obj['uid']) {
                 $uid = false ;
-                echo "<hr>Line "  . __LINE__ . " : ". $uid ;
             }
         }
-        echo "<hr>Line "  . __LINE__ . " : ". $uid ;
         if( $uid && $this->request->hasArgument('hash')) {
             $uid = $this->request->getArgument('hash') ;
             $user = $GLOBALS['TSFE']->fe_user->user ;
             echo "<hr>Line "  . __LINE__ . " : ". $uid ;
             if ( $uid !=  hash( "sha256" , $obj['tstamp'] . $user['tstamp'] ) ) {
-                echo "<hr>Line "  . __LINE__ . " : ". $uid ;
                 $uid = false ;
             }
         } else {
             $uid = false ;
         }
-        echo "<hr>Line "  . __LINE__ . " : ". $uid ;
         if( $uid ) {
             $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups']) );
 
