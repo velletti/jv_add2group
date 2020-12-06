@@ -5,7 +5,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 $_EXTKEY = "jv_add2group" ;
 ExtensionManagementUtility::addPlugin(
-    Array('LLL:EXT:jv_add2group/Resources/Private/Language/locallang.xlf:add2group.title',
+    Array('LLL:EXT:jv_add2group/Resources/Private/Language/locallang.xlf:add2group.name',
     'jv_add2group') ,
     'list_type' ,
     'jv_add2group'

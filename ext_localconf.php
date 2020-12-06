@@ -13,7 +13,7 @@ call_user_func(
             ],
             // non-cacheable actions
             [
-                'Connector' => 'show,add,remove'
+                'Add2group' => 'show,add,remove'
             ]
         );
 
@@ -25,7 +25,7 @@ call_user_func(
                         connector {
                             iconIdentifier = jv_add2group-plugin-add2group
                             title = LLL:EXT:jv_add2group/Resources/Private/Language/locallang.xlf:add2group.name
-                            description = LLL:EXT:jv_banners/Resources/Private/Language/locallang.xlf:add2group.description
+                            description = LLL:EXT:jv_add2group/Resources/Private/Language/locallang.xlf:add2group.description
                             tt_content_defValues {
                                 CType = list
                                 list_type = jvadd2group_add2group
