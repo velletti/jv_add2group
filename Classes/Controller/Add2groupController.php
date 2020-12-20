@@ -58,6 +58,9 @@ class Add2groupController extends ActionController
     {
         $obj = $this->configurationManager->getContentObject()->data ;
         $user = $GLOBALS['TSFE']->fe_user->user ;
+        if( !is_array($user)) {
+            $this->forward("show" ) ;
+        }
         $uid = false ;
         if( $this->request->hasArgument('uid')) {
             $uid = $this->request->getArgument('uid') ;

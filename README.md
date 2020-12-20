@@ -11,7 +11,7 @@ Set the Button Text user should Click.
 
 Set up the NEW Usergroup(s) the User should get additionally or that should be removed.
 
-Example usecase:
+Example use case:
 Show a text, that explanes the Rules to UPLOAD of images. 
 Or to participate in a user Forum
 Or to accept New  **"Terms Of Use"** 
@@ -21,6 +21,15 @@ When the current logged in User clicked to the defined *"Accept (s)Rules"* Butto
 
 You can have more than one of such Text boxes  on one Page. 
 
+## Internal:
+To Update this extension: 
+change version Number to "x.y.z" in ext_emconf, composer, Documentation\settings.cfg
+create Tag "x.y.z" 
+create new zip file:
+cd typo3conf/ext/jv_add2group
+git archive -o "${PWD##*/}_x.y.z.zip" x.y.z
 
+Upload ZIP File to https://extensions.typo3.org/my-extensions
+git push
 
 
