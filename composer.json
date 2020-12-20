@@ -1,7 +1,17 @@
 {
     "name": "jvelletti/jv-add2group",
     "type": "typo3-cms-extension",
+    "version": "1.0.1",
     "description": "Add or Remove usergroup to TYPO3 Frontend user if has Group or has not",
+    "support": {
+        "source": "https://github.com/velletti/jv_add2group/",
+        "issues": "https://github.com/velletti/jv_add2group/issues"
+    },
+    "keywords": [
+        "frontend user",
+        "usergroup" ,
+        "typo3"
+    ],
     "authors": [
         {
             "name": "Joerg Velletti",
@@ -15,12 +25,12 @@
     "license": "GPL-2.0-or-later",
     "autoload": {
         "psr-4": {
-            "JVE\\JvAdd2group\\": "Classes"
+            "JVelletti\\JvAdd2group\\": "Classes"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "JVE\\JvAdd2group\\Tests\\": "Tests"
+            "JVelletti\\JvAdd2group\\Tests\\": "Tests"
         }
     },
     "replace": {

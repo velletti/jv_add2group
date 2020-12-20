@@ -1,5 +1,5 @@
 <?php
-namespace JVE\JvAdd2group\Controller;
+namespace JVelletti\JvAdd2group\Controller;
 
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
