@@ -38,7 +38,14 @@ if he accepts the Message, he will loose usergroup "_KategoryMogler"
 
 
 
+To Dos
+""""""
 
+The plan for Version 2 is to a configurable list of Classes that can be configured via typoscript.
+this list will be added as select to the plugins flexform.
+after a usergroup Change in the Controller, this class should be called.
+
+So f.e. you can add hooks to transport this usergroup change to an external CMS, email Newsletter tool or similar.
 
 
 

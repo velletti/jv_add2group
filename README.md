@@ -21,10 +21,12 @@ When the current logged in User clicked to the defined *"Accept (s)Rules"* Butto
 
 You can have more than one of such Text boxes  on one Page. 
 
-## Internal:
+
+## Internal reminder:
 To Update this extension: 
-change version Number to "x.y.z" in ext_emconf, composer, Documentation\settings.cfg
+change version Number to "x.y.z" in ext_emconf, composer and Documentation\ in settings.cfg and Index.rst
 create Tag "x.y.z" 
+
 create new zip file:
 cd typo3conf/ext/jv_add2group
 git archive -o "${PWD##*/}_x.y.z.zip" x.y.z
@@ -32,4 +34,7 @@ git archive -o "${PWD##*/}_x.y.z.zip" x.y.z
 Upload ZIP File to https://extensions.typo3.org/my-extensions
 git push
 
-
+check:
+https://intercept.typo3.com/admin/docs/deployments
+https://packagist.org/packages/jvelletti/jv-add2group
+https://extensions.typo3.org/extension/jv_add2group/

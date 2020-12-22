@@ -8,20 +8,23 @@
 .. _start:
 
 =================================
-Returnmail analyse of direct_mail
+Add/remove Frontend User to Group
 =================================
 
 
-Last time updated: 20-12-2020
+Last time updated: 22-12-2020
 
 
 .. only:: html
+
+    :Extension Key:
+        jv_add2group
 
 	:Classification:
 		jv_add2group
 
 	:Version:
-		1.0.9
+		1.0.5
 
 	:Language:
 		en
@@ -30,15 +33,15 @@ Last time updated: 20-12-2020
 
 
 	:Keywords:
-		comma,separated,list,of,keywords
+		feuser,usergroup,alert,terms of use,tos,frontend user,jve
 
 	:Copyright:
 		2020
 
 	:Author:
-                Gernot Ploiner
+                Jörg Velletti
 	:Email:
-                office@webprofil.at
+                typo3@velletti.de
 	:License:
 		This document is published under the Open Content License
 		available from http://www.opencontent.org/opl.shtml
@@ -59,4 +62,4 @@ a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
    Index
    Introduction
    Installation
-   ChangeLog/Index
+   ChangeLog/Changelog
