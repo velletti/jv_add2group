@@ -11,43 +11,44 @@
 Add/remove Frontend User to Group
 =================================
 
+:Extension Key:
+  jv_add2group
 
-Last time updated: 22-12-2020
+:Classification:
+  jv_add2group
 
+:Version:
+  1.0.6
 
-.. only:: html
+:Language:
+  en
 
-    :Extension Key:
-        jv_add2group
+:Description:
+  Offers the Possability to configure a headline, text and Button.
+  Text is Only Shown if User has specific usergroup(s) Or opposite. Has NOT this Groops
+  Access can be combined as AND Condition with default TYPO3 content usergroup Access
 
-	:Classification:
-		jv_add2group
+  After confirming the Button, user can get defined Usergroup or be remove from that group
+  Version: |version|
 
-	:Version:
-		1.0.5
+:Keywords:
+  feuser,usergroup,alert,terms of use,tos,frontend user,jve
 
-	:Language:
-		en
+:Copyright:
+  2020
 
-	:Description:
+:Author:
+  Jörg Velletti
 
+:Email:
+  typo3@velletti.de
 
-	:Keywords:
-		feuser,usergroup,alert,terms of use,tos,frontend user,jve
+:License:
+	This document is published under the Open Content License
+	available from http://www.opencontent.org/opl.shtml
 
-	:Copyright:
-		2020
-
-	:Author:
-                Jörg Velletti
-	:Email:
-                typo3@velletti.de
-	:License:
-		This document is published under the Open Content License
-		available from http://www.opencontent.org/opl.shtml
-
-	:Rendered:
-		|today|
+:Rendered:
+	|today|
 
 The content of this document is related to TYPO3,
 a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
