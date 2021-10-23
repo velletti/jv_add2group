@@ -118,7 +118,7 @@
 
 					<settings.classname>
 						<TCEforms>
-							<label>Classname</label>
+							<label>Classname and Function that will be called after user pressed button (still work in progress)</label>
 							<config>
 								<type>select</type>
 								<renderType>selectMultipleSideBySide</renderType>

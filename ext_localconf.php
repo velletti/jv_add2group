@@ -6,7 +6,7 @@ call_user_func(
     {
 
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'JVE.JvAdd2group',
+            'JVelletti.JvAdd2group',
             'Add2group',
             [
                 'Add2group' => 'show,add,remove'

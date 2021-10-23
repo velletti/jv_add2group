@@ -6,7 +6,7 @@ call_user_func(
     {
 
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-            'JVE.JvAdd2group',
+            'JVelletti.JvAdd2group',
             'Add2group',
             'Add Usergroup to Frontenduser'
         );
