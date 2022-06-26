@@ -8,7 +8,7 @@ call_user_func(
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
             'JVelletti.JvAdd2group',
             'Add2group',
-            'Add Usergroup to Frontenduser'
+            'LLL:EXT:jv_add2group/Resources/Private/Language/locallang.xlf:add2group.name'
         );
 
         $pluginSignature = str_replace('_', '', 'jv_add2group') . '_add2group';
