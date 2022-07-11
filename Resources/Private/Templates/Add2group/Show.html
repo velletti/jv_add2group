@@ -29,14 +29,22 @@
 
 			</f:if>
 		</f:flashMessages>
-
-		<f:variable name="maySee">true</f:variable>
-		<f:if condition="{settings.mustHaveGroups}">
-			<f:variable name="maySee">false</f:variable>
-			<f:for as="group" each="{settings.mustHaveGroups}">
-				<f:security.ifHasRole role="{group}"><f:variable name="maySee">true</f:variable></f:security.ifHasRole>
-			</f:for>
+		<f:if condition="{user}">
+			<f:then>
+				<f:variable name="maySee">false</f:variable>
+			</f:then>
+			<f:else>
+				<f:variable name="maySee">true</f:variable>
+				<f:if condition="{settings.mustHaveGroups}">
+					<f:variable name="maySee">false</f:variable>
+					<f:for as="group" each="{settings.mustHaveGroups}">
+						<f:security.ifHasRole role="{group}"><f:variable name="maySee">true</f:variable></f:security.ifHasRole>
+					</f:for>
+				</f:if>
+			</f:else>
 		</f:if>
+
+
 
 		<f:variable name="mayNotSee">false</f:variable>
 		<f:if condition="{settings.mayNotHaveGroups}">

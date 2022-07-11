@@ -18,5 +18,7 @@ plugin.tx_jvadd2group_add2group {
     mvc {
         callDefaultActionIfActionCantBeResolved = 1
     }
+    # set this to 1 to get infos in Case of problems to get more debug output
+    settings.debug = 0
 }
 

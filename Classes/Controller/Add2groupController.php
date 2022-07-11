@@ -45,7 +45,7 @@ class Add2groupController extends ActionController
         $obj = $this->configurationManager->getContentObject()->data ;
 
         $this->view->assign('uid', $obj['uid']);
-        $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . $user['tstamp'] ));
+        $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . "JVE" . $GLOBALS['TSFE']->fe_user->getSessionId() ));
 
     }
 
@@ -56,7 +56,9 @@ class Add2groupController extends ActionController
      */
     public function addAction()
     {
+        $debug= "" ;
         $obj = $this->configurationManager->getContentObject()->data ;
+
         $user = $GLOBALS['TSFE']->fe_user->user ;
         if( !is_array($user)) {
             $this->forward("show" ) ;
@@ -64,21 +66,31 @@ class Add2groupController extends ActionController
         $uid = false ;
         if( $this->request->hasArgument('uid')) {
             $uid = $this->request->getArgument('uid') ;
-
+            $debug .= " |  Got Content Object Uid=" . $uid ;
             if ( $uid != $obj['uid']) {
                 $uid = false ;
             }
         }
         if( $uid && $this->request->hasArgument('hash')) {
             $uid = $this->request->getArgument('hash') ;
-
-            if ( $uid !=  hash( "sha256" , $obj['tstamp'] . $user['tstamp'] ) ) {
+            $debug .= " |  Got Hash=" . $uid ;
+            if ( $uid !=  hash( "sha256" , $obj['tstamp'] . "JVE" .  $GLOBALS['TSFE']->fe_user->getSessionId() ) ) {
                 $uid = false ;
+                $debug .= " |   Hash NOT VALID !! for tstamp/crdate : " . $obj['tstamp'] . " | " . $user['crdate']  ;
+                $this->addFlashMessage("Hash not valid." , null , AbstractMessage::ERROR) ;
             }
         } else {
             $uid = false ;
+            $debug .= " |   got no Hash "   ;
+            $this->addFlashMessage("Got no hash" , null , AbstractMessage::ERROR) ;
         }
         if( $uid ) {
+
+            $debug .= " |   Add/remove Grups from user uid: "  . (int)$GLOBALS['TSFE']->fe_user->user['uid']   ;
+            $debug .= " |   Current Groups: "  . $GLOBALS['TSFE']->fe_user->user['usergroup']  ;
+            $debug .= " |   Add Group(s): " . $this->settings['willGetGroups'] ;
+            $debug .= " |   Remove Group(s): " . $this->settings['willLooseGroups'] ;
+
             $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups']) );
 
             $msg = trim( $this->settings['successMsg']) ;
@@ -89,15 +101,23 @@ class Add2groupController extends ActionController
                 $GLOBALS['TSFE']->fe_user->start();
                 $GLOBALS["TSFE"]->fe_user->createUserSession($feuser);
                 $GLOBALS["TSFE"]->fe_user->loginSessionStarted = TRUE;
+                $debug .= " |   Updated user: "  . $GLOBALS['TSFE']->fe_user->user['usergroup']  ;
                 if( strlen( $msg ) > 1  ) {
                     $this->addFlashMessage($msg , null , AbstractMessage::OK ) ;
                 }
             } else {
+                $debug .= " |    user had Groups already  "    ;
                 if( strlen( $msg ) > 1  ) {
                     $this->addFlashMessage("Nothing to do" , null , AbstractMessage::ERROR) ;
                 }
 
             }
+
+            if( $this->settings['debug'] == 1 ) {
+                $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
+                $this->addFlashMessage( "Debug: " .   $debug  , "debug" , AbstractMessage::INFO , true) ;
+            }
+
             $this->redirect("show" , null, null , array("hash" => $user['tstamp'] ) ) ;
         } else {
             $this->forward("show" ) ;
