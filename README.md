@@ -24,12 +24,13 @@ You can have more than one of such Text boxes  on one Page.
 
 ## Internal reminder:
 To Update this extension: 
-change version Number to "x.y.z" in ext_emconf, composer and Documentation\ in settings.cfg and Index.rst
-create Tag "x.y.z" 
+change version Number to "x.y.z" in ext_emconf.php, Documentation\ in Settings.cfg and Index.rst
+create Tag "x.y.z"
+git push --tags
 
 create new zip file:
 cd typo3conf/ext/jv_add2group
-git archive -o "${PWD##*/}_x.y.z.zip" x.y.z
+git archive -o "${PWD##*/}_x.y.z.zip" HEAD
 
 Upload ZIP File to https://extensions.typo3.org/my-extensions
 git push
