@@ -18,7 +18,7 @@ Add/remove Frontend User to Group
   jv_add2group
 
 :Version:
-  1.0.6
+  11.5.5
 
 :Language:
   en
@@ -35,7 +35,7 @@ Add/remove Frontend User to Group
   feuser,usergroup,alert,terms of use,tos,frontend user,jve
 
 :Copyright:
-  2020
+  2022
 
 :Author:
   Jörg Velletti
