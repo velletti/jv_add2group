@@ -128,6 +128,7 @@ class Add2groupController extends ActionController
                 if(MigrationUtility::greaterVersion(9)) {
                     \TYPO3\CMS\Fluid\Core\Rendering\RenderingContext::class->$this->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK);
                 } else {
+                    // @extensionScannerIgnoreLine
                     $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
                 }
 
@@ -140,12 +141,14 @@ class Add2groupController extends ActionController
                     ->withArguments( array("hash" => $user['tstamp'] )
                     ) ;
             } else {
+                // @extensionScannerIgnoreLine
                 $this->forward( "show") ;
             }
         } else {
             if(MigrationUtility::greaterVersion(10)) {
                 return( new TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
             } else {
+                // @extensionScannerIgnoreLine
                 $this->forward( "show") ;
             }
         }
