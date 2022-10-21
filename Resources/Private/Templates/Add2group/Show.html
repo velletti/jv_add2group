@@ -67,14 +67,20 @@
 				<f:if condition="{maySee}">
 					<f:then>
 						<div class="alert alert-warning">
-							<h2>{settings.title}</h2>
+							<f:if condition="{settings.title}">
+								<h2>{settings.title}</h2>
+							</f:if>
 							<f:format.html ><f:spaceless>{settings.description}</f:spaceless></f:format.html>
-							<f:link.action action="add" arguments="{'uid': uid, 'hash': hash}" class="btn btn-primary position-bottom position-right m-2"> {settings.button}
-							</f:link.action>
+							<f:if condition="{settings.button}">
+								<f:link.action action="add" arguments="{'uid': uid, 'hash': hash}" class="btn btn-primary position-bottom position-right m-2"> {settings.button}
+								</f:link.action>
+							</f:if>
 						</div>
 					</f:then>
 					<f:else>
-						may  see not set !<br>
+						<f:if condition="{settings.debug}">
+								may  see not set !<br>
+						</f:if>
 					</f:else>
 				</f:if>
 			</f:else>
