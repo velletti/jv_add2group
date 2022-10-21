@@ -16,5 +16,5 @@ ExtensionManagementUtility::addPlugin(
 */
 
 // BOTH Lines are needed to see the Flexform in Backend !!1
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['jv_add2group'] = 'pi_flexform';
-ExtensionManagementUtility::addPiFlexFormValue('jv_add2group', 'FILE:EXT:jv_add2group/Configuration/FlexForms/flexform.xml');
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['jvadd2group_add2group'] = 'pi_flexform';
+ExtensionManagementUtility::addPiFlexFormValue('jvadd2group_add2group', 'FILE:EXT:jv_add2group/Configuration/FlexForms/flexform.xml');

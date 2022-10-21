@@ -50,6 +50,7 @@ class Add2groupController extends ActionController
 
         $this->view->assign('uid', $obj['uid']);
         $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . "JVE" . MigrationUtility::getUserSessionId() ));
+
     }
 
     /**
@@ -140,7 +141,7 @@ class Add2groupController extends ActionController
             }
             $this->redirect("show" , null, null , array("hash" => $user['tstamp'] ) ) ;
             if(MigrationUtility::greaterVersion(10)) {
-                return( new TYPO3\CMS\Extbase\Http\ForwardResponse("show"))
+                return( new \TYPO3\CMS\Extbase\Http\ForwardResponse("show"))
                     ->withArguments( array("hash" => $user['tstamp'] )
                     ) ;
             } else {
@@ -149,7 +150,7 @@ class Add2groupController extends ActionController
             }
         } else {
             if(MigrationUtility::greaterVersion(10)) {
-                return( new TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
+                return( new \TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
             } else {
                 // @extensionScannerIgnoreLine
                 $this->forward( "show") ;
@@ -189,6 +190,7 @@ class Add2groupController extends ActionController
             ->set('usergroup', $newGroups ) ;
 
         $queryBuilder->execute() ;
+
 
         if ( !$connection->errorInfo() ) {
             return $user;

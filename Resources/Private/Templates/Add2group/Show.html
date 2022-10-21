@@ -29,32 +29,39 @@
 
 			</f:if>
 		</f:flashMessages>
+
 		<f:if condition="{user}">
-			<f:then>
-				<f:variable name="maySee">false</f:variable>
-			</f:then>
 			<f:else>
+				<f:variable name="maySee">false</f:variable>
+			</f:else>
+			<f:then>
 				<f:variable name="maySee">true</f:variable>
+				<f:variable name="mustHaveGroups"></f:variable>
 				<f:if condition="{settings.mustHaveGroups}">
 					<f:variable name="maySee">false</f:variable>
 					<f:for as="group" each="{settings.mustHaveGroups}">
 						<f:security.ifHasRole role="{group}"><f:variable name="maySee">true</f:variable></f:security.ifHasRole>
+						<f:variable name="mustHaveGroups">{mustHaveGroups},{group}</f:variable>
 					</f:for>
 				</f:if>
-			</f:else>
+			</f:then>
 		</f:if>
 
 
 
 		<f:variable name="mayNotSee">false</f:variable>
+		<f:variable name="mayNotHaveGroups"></f:variable>
 		<f:if condition="{settings.mayNotHaveGroups}">
 			<f:for as="group" each="{settings.mayNotHaveGroups}">
 				<f:security.ifHasRole role="{group}"><f:variable name="mayNotSee">true</f:variable></f:security.ifHasRole>
+				<f:variable name="mayNotHaveGroups">{mayNotHaveGroups},{group}</f:variable>
 			</f:for>
 		</f:if>
 		<f:if condition="{mayNotSee}">
 			<f:then>
-
+				<f:if condition="{settings.debug}">
+					may not see was set !<br>
+				</f:if>
 			</f:then>
 			<f:else>
 				<f:if condition="{maySee}">
@@ -67,12 +74,16 @@
 						</div>
 					</f:then>
 					<f:else>
-
+						may  see not set !<br>
 					</f:else>
 				</f:if>
 			</f:else>
 		</f:if>
-
+		<f:if condition="{settings.debug}">
+			User: <f:if condition="{user}">Yes! Uid: {user.uid} With Groups: {user.usergroup}</f:if><br>
+			May not have Groups: {mayNotHaveGroups}<br>
+			Must have Groups: {mustHaveGroups}<br>
+		</f:if>
 
 	</f:section>
 </html>
