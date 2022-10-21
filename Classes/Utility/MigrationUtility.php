@@ -20,6 +20,7 @@ class MigrationUtility
             }
             return false ;
         } else {
+            // @extensionScannerIgnoreLine
            return $GLOBALS['TSFE']->fe_user->getSessionId() ;
         }
     }
@@ -36,6 +37,7 @@ class MigrationUtility
         if( self::greaterVersion(10)  ) {
            return  StringUtility::uniqueList($in_list);
         } else {
+            // @extensionScannerIgnoreLine
            return  GeneralUtility::uniqueList($in_list);
         }
     }
