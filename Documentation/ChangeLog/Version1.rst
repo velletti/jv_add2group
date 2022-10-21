@@ -13,7 +13,7 @@ ChangeLog
 
 For details have a look at the Github commits: https://github.com/velletti/jv_add2group/commits/master
 
-11.5.1 -11.5.4  - First adjustments to be compatible with LTS 11
+11.5.1 -11.5.6  - First adjustments to be compatible with LTS 11
 
 1.0.6 - improvement - just trying to make the rendering of documentation files working
 
