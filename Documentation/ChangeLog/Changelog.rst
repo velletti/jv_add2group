@@ -11,7 +11,7 @@
 ChangeLog
 =========
 
-For details have a look at the Github commits: https://github.com/Gernott/jv_add2group/commits/master
+For details have a look at the Github commits: https://github.com/jvelletti/jv_add2group/commits/master
 
 
 **Table of Contents**
