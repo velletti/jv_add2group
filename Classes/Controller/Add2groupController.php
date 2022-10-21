@@ -64,9 +64,8 @@ class Add2groupController extends ActionController
 
         $user = $GLOBALS['TSFE']->fe_user->user ;
         if( !is_array($user)) {
-
             if(MigrationUtility::greaterVersion(10)) {
-                return( new TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
+                return( new \TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
             } else {
                 $this->forward( "show") ;
             }
@@ -105,14 +104,19 @@ class Add2groupController extends ActionController
             $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups']) );
 
             $msg = trim( $this->settings['successMsg']) ;
-
             if ($feuser) {
 
-                $GLOBALS['TSFE']->__set('loginUser', 1);
-                $GLOBALS['TSFE']->fe_user->start();
-                $GLOBALS["TSFE"]->fe_user->createUserSession($feuser);
-                $GLOBALS["TSFE"]->fe_user->loginSessionStarted = TRUE;
-                $debug .= " |   Updated user: "  . $GLOBALS['TSFE']->fe_user->user['usergroup']  ;
+                if(MigrationUtility::greaterVersion(10)) {
+                    // toDo restart the session in New Style
+
+                } else {
+                    $GLOBALS['TSFE']->__set('loginUser', 1);
+                    $GLOBALS['TSFE']->fe_user->start();
+                    $GLOBALS["TSFE"]->fe_user->createUserSession($feuser);
+                    $GLOBALS["TSFE"]->fe_user->loginSessionStarted = TRUE;
+                }
+
+
                 if( strlen( $msg ) > 1  ) {
                     $this->addFlashMessage($msg , null , AbstractMessage::OK ) ;
                 }
@@ -125,8 +129,8 @@ class Add2groupController extends ActionController
             }
 
             if( $this->settings['debug'] == 1 ) {
-                if(MigrationUtility::greaterVersion(9)) {
-                    \TYPO3\CMS\Fluid\Core\Rendering\RenderingContext::class->$this->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK);
+                if(MigrationUtility::greaterVersion(10)) {
+                    $this->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
                 } else {
                     // @extensionScannerIgnoreLine
                     $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
@@ -134,7 +138,6 @@ class Add2groupController extends ActionController
 
                 $this->addFlashMessage( "Debug: " .   $debug  , "debug" , AbstractMessage::INFO , true) ;
             }
-
             $this->redirect("show" , null, null , array("hash" => $user['tstamp'] ) ) ;
             if(MigrationUtility::greaterVersion(10)) {
                 return( new TYPO3\CMS\Extbase\Http\ForwardResponse("show"))

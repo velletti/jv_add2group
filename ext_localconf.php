@@ -5,17 +5,31 @@ call_user_func(
     function()
     {
 
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'JVelletti.JvAdd2group',
-            'Add2group',
-            [
-                'Add2group' => 'show,add,remove'
-            ],
-            // non-cacheable actions
-            [
-                'Add2group' => 'show,add,remove'
-            ]
-        );
+        if( \JVelletti\JvAdd2group\Utility\MigrationUtility::greaterVersion(10)) {
+            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+                'JVelletti.JvAdd2group',
+                'Add2group',
+                [
+                    \JVelletti\JvAdd2group\Controller\Add2groupController::class => 'show,add,remove'
+                ],
+                // non-cacheable actions
+                [
+                    \JVelletti\JvAdd2group\Controller\Add2groupController::class => 'show,add,remove'
+                ]
+            );
+        } else {
+            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+                'JVelletti.JvAdd2group',
+                'Add2group',
+                [
+                    'Add2group' => 'show,add,remove'
+                ],
+                // non-cacheable actions
+                [
+                    'Add2group' => 'show,add,remove'
+                ]
+            );
+        }
 
         // wizards
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
