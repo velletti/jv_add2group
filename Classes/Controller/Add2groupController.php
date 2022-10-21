@@ -1,12 +1,16 @@
 <?php
 namespace JVelletti\JvAdd2group\Controller;
 
+use JVelletti\JvAdd2group\Utility\MigrationUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+
+use Psr\Http\Message\ResponseInterface;
+
 
 /***
  *
@@ -45,8 +49,7 @@ class Add2groupController extends ActionController
         $obj = $this->configurationManager->getContentObject()->data ;
 
         $this->view->assign('uid', $obj['uid']);
-        $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . "JVE" . $GLOBALS['TSFE']->fe_user->getSessionId() ));
-
+        $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . "JVE" . MigrationUtility::getUserSessionId() ));
     }
 
     /**
@@ -61,7 +64,15 @@ class Add2groupController extends ActionController
 
         $user = $GLOBALS['TSFE']->fe_user->user ;
         if( !is_array($user)) {
-            $this->forward("show" ) ;
+
+            if(MigrationUtility::greaterVersion(10)) {
+                return( new TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
+            } else {
+                $this->forward( "show") ;
+            }
+
+
+
         }
         $uid = false ;
         if( $this->request->hasArgument('uid')) {
@@ -74,7 +85,7 @@ class Add2groupController extends ActionController
         if( $uid && $this->request->hasArgument('hash')) {
             $uid = $this->request->getArgument('hash') ;
             $debug .= " |  Got Hash=" . $uid ;
-            if ( $uid !=  hash( "sha256" , $obj['tstamp'] . "JVE" .  $GLOBALS['TSFE']->fe_user->getSessionId() ) ) {
+            if ( $uid !=  hash( "sha256" , $obj['tstamp'] . "JVE" .  MigrationUtility::getUserSessionId() ) ) {
                 $uid = false ;
                 $debug .= " |   Hash NOT VALID !! for tstamp/crdate : " . $obj['tstamp'] . " | " . $user['crdate']  ;
                 $this->addFlashMessage("Hash not valid." , null , AbstractMessage::ERROR) ;
@@ -114,13 +125,29 @@ class Add2groupController extends ActionController
             }
 
             if( $this->settings['debug'] == 1 ) {
-                $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
+                if(MigrationUtility::greaterVersion(9)) {
+                    \TYPO3\CMS\Fluid\Core\Rendering\RenderingContext::class->$this->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK);
+                } else {
+                    $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
+                }
+
                 $this->addFlashMessage( "Debug: " .   $debug  , "debug" , AbstractMessage::INFO , true) ;
             }
 
             $this->redirect("show" , null, null , array("hash" => $user['tstamp'] ) ) ;
+            if(MigrationUtility::greaterVersion(10)) {
+                return( new TYPO3\CMS\Extbase\Http\ForwardResponse("show"))
+                    ->withArguments( array("hash" => $user['tstamp'] )
+                    ) ;
+            } else {
+                $this->forward( "show") ;
+            }
         } else {
-            $this->forward("show" ) ;
+            if(MigrationUtility::greaterVersion(10)) {
+                return( new TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
+            } else {
+                $this->forward( "show") ;
+            }
         }
 
     }
@@ -129,12 +156,12 @@ class Add2groupController extends ActionController
         $user = $GLOBALS['TSFE']->fe_user->user ;
         $uid = (int)$GLOBALS['TSFE']->fe_user->user['uid'] ;
         $oldGroups = $GLOBALS['TSFE']->fe_user->user['usergroup'] ;
-        $oldGroups = GeneralUtility::uniqueList($oldGroups) ;
-        $newGroups = GeneralUtility::uniqueList($oldGroups . "," . $addGroups) ;
+        $oldGroups = MigrationUtility::uniqueList($oldGroups) ;
+        $newGroups = MigrationUtility::uniqueList($oldGroups . "," . $addGroups) ;
         $removeGroupsArray= GeneralUtility::trimExplode("," , $removeGroups , true) ;
         if($removeGroupsArray) {
             foreach ( $removeGroupsArray as $group ) {
-                $newGroups = GeneralUtility::rmFromList($group ,$newGroups) ;
+                $newGroups = MigrationUtility::rmFromList($group ,$newGroups) ;
             }
         }
 
