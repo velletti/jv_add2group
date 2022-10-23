@@ -1,5 +1,5 @@
 
-plugin.tx_jvadd2group_add2group {
+plugin.tx_jvadd2group {
     view {
         # cat=plugin.tx_jvadd2group/file; type=string; label=Path to template root (FE)
         templateRootPath = EXT:tx_jvadd2group/Resources/Private/Templates/

@@ -1,7 +1,7 @@
 <?php
 
 
-$EM_CONF[$_EXTKEY] = [
+$EM_CONF['jv_add2group'] = [
     'title' => 'Add or Remove Usergroup to Frontend user',
     'description' => 'Show Text with Button. After user Accepts, add user to FE group or remove him / her from group',
     'category' => 'plugin',
@@ -11,7 +11,7 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => 0,
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '11.5.8',
+    'version' => '11.5.9',
     'constraints' => [
         'depends' => [
             'typo3' => '9.5.0-11.5.99',

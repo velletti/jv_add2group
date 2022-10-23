@@ -1,12 +1,12 @@
 
-plugin.tx_jvadd2group_add2group {
+plugin.tx_jvadd2group {
     view {
         templateRootPaths.0 = EXT:jv_add2group/Resources/Private/Templates/
-        templateRootPaths.1 = {$plugin.tx_jvadd2group_add2group.view.templateRootPath}
+        templateRootPaths.1 = {$plugin.tx_jvadd2group.view.templateRootPath}
         partialRootPaths.0 = EXT:jv_add2group/Resources/Private/Partials/
-        partialRootPaths.1 = {$plugin.tx_jvadd2group_add2group.view.partialRootPath}
+        partialRootPaths.1 = {$plugin.tx_jvadd2group.view.partialRootPath}
         layoutRootPaths.0 = EXT:jv_add2group/Resources/Private/Layouts/
-        layoutRootPaths.1 = {$plugin.tx_jvadd2group_add2group.view.layoutRootPath}
+        layoutRootPaths.1 = {$plugin.tx_jvadd2group.view.layoutRootPath}
     }
     features {
         skipDefaultArguments = 1

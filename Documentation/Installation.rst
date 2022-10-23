@@ -39,6 +39,17 @@ You will need this as Constants:
     }
 
 
+Styling
+"""""""
+But normaly it is sufficiant to copy only the folder Resources/Privat/Templates to
+f.e. fileadmin/theme/ (or your own sitepackage private folder)
+
+add a constant in your typo3script  that points to this folder
+   plugin.tx_jvadd2email.view.templateRootPath = fileadmin/theme/Templates
+
+or
+a setup value:
+   templateRootPaths.50 = fileadmin/theme/Templates
 
 
 
