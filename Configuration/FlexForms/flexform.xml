@@ -16,6 +16,16 @@
 							</config>
 						</TCEforms>
 					</settings.title>
+					<settings.cssclass>
+						<TCEforms>
+							<label>Css style classname f.e. alert-warning</label>
+							<config>
+								<type>input</type>
+								<default>alert-warning</default>
+
+							</config>
+						</TCEforms>
+					</settings.cssclass>
 					<settings.description>
 						<TCEforms>
 							<label>Description</label>
@@ -116,13 +126,12 @@
 						</TCEforms>
 					</settings.successMsg>
 
-					<settings.classname>
+					<settings.classnames>
 						<TCEforms>
-							<label>Classname and Function that will be called after user pressed button (still work in progress)</label>
+							<label>Class->function, will be called after user pressed button</label>
 							<config>
 								<type>select</type>
 								<renderType>selectMultipleSideBySide</renderType>
-
 								<itemsProcFunc>JVelletti\JvAdd2group\UserFunc\Flexforms->showClasses</itemsProcFunc>
 
 								<items>
@@ -134,7 +143,7 @@
 
 							</config>
 						</TCEforms>
-					</settings.classname>
+					</settings.classnames>
 				</el>
 			</ROOT>
 		</sDEF>

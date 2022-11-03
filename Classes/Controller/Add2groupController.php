@@ -1,6 +1,8 @@
 <?php
 namespace JVelletti\JvAdd2group\Controller;
 
+use Exception;
+use JVelletti\JvAdd2group\Utility\HookUtility;
 use JVelletti\JvAdd2group\Utility\MigrationUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -101,8 +103,18 @@ class Add2groupController extends ActionController
             $debug .= " |   Current Groups: "  . $GLOBALS['TSFE']->fe_user->user['usergroup']  ;
             $debug .= " |   Add Group(s): " . $this->settings['willGetGroups'] ;
             $debug .= " |   Remove Group(s): " . $this->settings['willLooseGroups'] ;
+            $debug .= " |   additonal Classes (s): " . $this->settings['classname'] ;
+            $hookClassesSettings = [] ;
+            $hookClasses = GeneralUtility::trimExplode("," , $this->settings['classnames'] ) ;
 
-            $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups']) );
+            if (is_array( $this->settings['hookClasses'] ) && !empty($hookClasses )) {
+                foreach ( $hookClasses as $key ) {
+                    if ( isset( $this->settings['hookClasses'][$key])) {
+                        $hookClassesSettings[] = $this->settings['hookClasses'][$key]  ;
+                    }
+                }
+            }
+            $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups'] ) , $hookClassesSettings );
 
             $msg = trim( $this->settings['successMsg']) ;
             if ($feuser) {
@@ -159,7 +171,7 @@ class Add2groupController extends ActionController
 
     }
 
-    private function updateUserGroupField( $addGroups , $removeGroups) {
+    private function updateUserGroupField( $addGroups , $removeGroups , $HookClasses ) {
         $user = $GLOBALS['TSFE']->fe_user->user ;
         $uid = (int)$GLOBALS['TSFE']->fe_user->user['uid'] ;
         $oldGroups = $GLOBALS['TSFE']->fe_user->user['usergroup'] ;
@@ -173,7 +185,14 @@ class Add2groupController extends ActionController
         }
 
         $user['usergroup'] = $newGroups ;
-        if( $newGroups == $oldGroups) {
+        if( !empty( $HookClasses)) {
+            foreach ( $HookClasses as $hookClass ) {
+                if( ! HookUtility::main($hookClass , $user ) ) {
+                   return false ;
+                }
+            }
+        }
+        if( $newGroups == $oldGroups ) {
             return $user ;
         }
 

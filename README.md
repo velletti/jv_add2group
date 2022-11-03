@@ -11,7 +11,7 @@ Set the Button Text user should Click.
 
 Set up the NEW Usergroup(s) the User should get additionally or that should be removed.
 
-Example use case:
+*Example use case:*
 Show a text, that explanes the Rules to UPLOAD of images. 
 Or to participate in a user Forum
 Or to accept New  **"Terms Of Use"** 
@@ -21,9 +21,25 @@ When the current logged in User clicked to the defined *"Accept (s)Rules"* Butto
 
 You can have more than one of such Text boxes  on one Page. 
 
+*Feature since Version 11.1.10:*
+you can configure a custom class and the function in this class, that is called at the end.
 
-## Internal reminder:
-To Update this extension: 
+    settings.hookClasses {
+        example { 
+           fqcn  = JVelletti\JvAdd2group\Utility\ExampleWrapperUtility
+           function = main
+        }
+    }
+
+will call 
+
+    $hook = $settings['hookClasses']['example']
+    ExampleWrapperUtility->main( $hook , $user)
+
+more examples on this will follow (f.e. active newsletter Opt In in FE user entry or similar )
+
+## Internal reminder for the extension maintainer: 
+To Update this extension in TER: 
 change version Number to "x.y.z" in ext_emconf.php, Documentation\ in Settings.cfg and Index.rst
 create Tag "x.y.z"
 git push --tags
