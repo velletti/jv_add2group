@@ -63,3 +63,9 @@ $iconRegistry->registerIcon(
     ['source' => 'EXT:jv_add2group/Resources/Public/Icons/user_plugin.svg']
 );
 
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1667555655] = [
+    'nodeName' => 'JvAdd2groupCustomLayoutElement',
+    'priority' => 40,
+    'class' => \JVelletti\JvAdd2group\FormEngine\Element\JvAdd2groupCustomLayoutElement::class,
+];
+

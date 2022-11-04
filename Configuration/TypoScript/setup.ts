@@ -21,6 +21,28 @@ plugin.tx_jvadd2group {
     # set this to 1 to get infos in Case of problems to get more debug output
     settings.debug = 0
 
+    settings.cssClasses {
+        0 {
+            label = Warning box
+            value = alert alert-warning
+        }
+        1 {
+            label = Info box
+            value = alert alert-info
+        }
+
+        2 {
+            label = Box with Danger color
+            value = alert alert-danger
+        }
+        3 {
+            label = Box with Success color
+            label = Box with Success color
+            value = alert alert-success
+        }
+        ## Feel free to add your own values to the select box
+    }
+
     settings.hookClasses {
 
         example {

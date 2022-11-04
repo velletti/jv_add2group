@@ -13,6 +13,8 @@ ChangeLog
 
 For details have a look at the Github commits: https://github.com/velletti/jv_add2group/commits/master
 
+11.5.11 - allow to set a list of allowed css Classes via Typoscript. One of them can be select in Plugin
+
 11.5.10 - added Feature with configurable custom class via typoscript settings that finalizes the task.
    (f.e. send Email to admin, create log entry etc )
    see Classes\Utility\ExampleWrapperUtility.php  and Typoscript settings.hookClasses.example {

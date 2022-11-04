@@ -16,16 +16,20 @@
 							</config>
 						</TCEforms>
 					</settings.title>
-					<settings.cssclass>
+					<settings.cssClass>
 						<TCEforms>
-							<label>Css style classname f.e. alert-warning</label>
+							<label>Css style classname</label>
 							<config>
-								<type>input</type>
-								<default>alert-warning</default>
-
+								<type>user</type>
+								<renderType>JvAdd2groupCustomLayoutElement</renderType>
+								<size>30</size>
+								<itemsProcFunc>JVelletti\JvAdd2group\UserFunc\Flexforms->showCssClasses</itemsProcFunc>
+								<parameters>
+									<settingsType>cssClass</settingsType>
+								</parameters>
 							</config>
 						</TCEforms>
-					</settings.cssclass>
+					</settings.cssClass>
 					<settings.description>
 						<TCEforms>
 							<label>Description</label>
