@@ -21,6 +21,9 @@ plugin.tx_jvadd2group {
     # set this to 1 to get infos in Case of problems to get more debug output
     settings.debug = 0
 
+    // in case of errors in Hooks, a  message may appear.
+    settings.nothingToDoMessage = Nothing To Do
+
     settings.cssClasses {
         0 {
             label = Warning box

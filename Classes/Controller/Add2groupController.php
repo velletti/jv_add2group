@@ -135,8 +135,8 @@ class Add2groupController extends ActionController
                 }
             } else {
                 $debug .= " |    user had Groups already  "    ;
-                if( strlen( $msg ) > 1  ) {
-                    $this->addFlashMessage("Nothing to do" , null , AbstractMessage::ERROR) ;
+                if( strlen( $msg ) > 1  && isset( $this->settings['nothingToDoMessage'] ) && !empty( $this->settings['nothingToDoMessage']) ) {
+                    $this->addFlashMessage($this->settings['nothingToDoMessage'] , null , AbstractMessage::ERROR) ;
                 }
 
             }
@@ -187,7 +187,8 @@ class Add2groupController extends ActionController
         $user['usergroup'] = $newGroups ;
         if( !empty( $HookClasses)) {
             foreach ( $HookClasses as $hookClass ) {
-                if( ! HookUtility::main($hookClass , $user ) ) {
+                // in case of errors, do not continue
+                if( HookUtility::main($hookClass , $user ) ) {
                    return false ;
                 }
             }
