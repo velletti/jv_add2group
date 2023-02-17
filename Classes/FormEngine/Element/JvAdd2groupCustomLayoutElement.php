@@ -16,7 +16,7 @@ class JvAdd2groupCustomLayoutElement extends AbstractFormElement
      *
      * @var array
      */
-    protected $data = [];
+    protected array $data = [];
 
     /**
      * Container objects give $nodeFactory down to other containers.
