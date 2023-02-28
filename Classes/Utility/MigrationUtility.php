@@ -38,7 +38,7 @@ class MigrationUtility
            return  StringUtility::uniqueList($in_list);
         } else {
             // @extensionScannerIgnoreLine
-           return  GeneralUtility::uniqueList($in_list);
+           return  StringUtility::uniqueList($in_list);
         }
     }
 

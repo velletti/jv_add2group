@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 call_user_func(
     function()
@@ -7,7 +7,7 @@ call_user_func(
 
         if( \JVelletti\JvAdd2group\Utility\MigrationUtility::greaterVersion(10)) {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-                'JVelletti.JvAdd2group',
+                'JvAdd2group',
                 'Add2group',
                 [
                     \JVelletti\JvAdd2group\Controller\Add2groupController::class => 'show,add,remove'
@@ -19,14 +19,14 @@ call_user_func(
             );
         } else {
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-                'JVelletti.JvAdd2group',
+                'JvAdd2group',
                 'Add2group',
                 [
-                    'Add2group' => 'show,add,remove'
+                    \JVelletti\JvAdd2group\Controller\Add2groupController::class => 'show,add,remove'
                 ],
                 // non-cacheable actions
                 [
-                    'Add2group' => 'show,add,remove'
+                    \JVelletti\JvAdd2group\Controller\Add2groupController::class => 'show,add,remove'
                 ]
             );
         }
