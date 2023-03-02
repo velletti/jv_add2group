@@ -19,16 +19,15 @@
         }
     ],
     "require": {
-        "typo3/cms-core": "^9.5 || ^10.4 || ^11.5 "
+        "typo3/cms-core": "^11.5 || ^12 "
     },
     "license": "GPL-2.0-or-later",
     "autoload": {
         "psr-4": {
-            "JVelletti\\JvAdd2group\\": "Classes"
+            "JVelletti\\JvAdd2group\\": "Classes/"
         }
     },
     "replace": {
-        "jvelletti/jv_add2group": "self.version",
         "typo3-ter/jv-add2group": "self.version"
     },
     "extra": {

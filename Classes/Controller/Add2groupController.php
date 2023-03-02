@@ -1,6 +1,7 @@
 <?php
 namespace JVelletti\JvAdd2group\Controller;
 
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use Exception;
 use JVelletti\JvAdd2group\Utility\HookUtility;
 use JVelletti\JvAdd2group\Utility\MigrationUtility;
@@ -40,7 +41,7 @@ class Add2groupController extends ActionController
      *
      * @return void
      */
-    public function showAction()
+    public function showAction(): ResponseInterface
     {
         $user = $GLOBALS['TSFE']->fe_user->user ;
         $this->view->assign('user', $user);
@@ -52,13 +53,14 @@ class Add2groupController extends ActionController
 
         $this->view->assign('uid', $obj['uid']);
         $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . "JVE" . MigrationUtility::getUserSessionId() ));
+        return $this->htmlResponse();
 
     }
 
     /**
      * action addAction
      *
-     * @return void
+     *
      */
     public function addAction()
     {
@@ -67,14 +69,7 @@ class Add2groupController extends ActionController
 
         $user = $GLOBALS['TSFE']->fe_user->user ;
         if( !is_array($user)) {
-            if(MigrationUtility::greaterVersion(10)) {
-                return( new \TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
-            } else {
-                $this->forward( "show") ;
-            }
-
-
-
+            return( new ForwardResponse("show")) ;
         }
         $uid = false ;
         if( $this->request->hasArgument('uid')) {
@@ -152,21 +147,11 @@ class Add2groupController extends ActionController
                 $this->addFlashMessage( "Debug: " .   $debug  , "debug" , AbstractMessage::INFO , true) ;
             }
             $this->redirect("show" , null, null , array("hash" => $user['tstamp'] ) ) ;
-            if(MigrationUtility::greaterVersion(10)) {
-                return( new \TYPO3\CMS\Extbase\Http\ForwardResponse("show"))
-                    ->withArguments( array("hash" => $user['tstamp'] )
-                    ) ;
-            } else {
-                // @extensionScannerIgnoreLine
-                $this->forward( "show") ;
-            }
+            return( new ForwardResponse("show"))
+                ->withArguments( array("hash" => $user['tstamp'] )
+                ) ;
         } else {
-            if(MigrationUtility::greaterVersion(10)) {
-                return( new \TYPO3\CMS\Extbase\Http\ForwardResponse("show")) ;
-            } else {
-                // @extensionScannerIgnoreLine
-                $this->forward( "show") ;
-            }
+            return( new ForwardResponse("show")) ;
         }
 
     }
@@ -209,13 +194,17 @@ class Add2groupController extends ActionController
             ->where( $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($uid , Connection::PARAM_INT )) )
             ->set('usergroup', $newGroups ) ;
 
-        $queryBuilder->execute() ;
-
-
-        if ( !$connection->errorInfo() ) {
-            return $user;
-        } else {
+        try {
+            $queryBuilder->executeStatement() ;
+        } catch(\Doctrine\DBAL\Exception $e ) {
             return false;
+        }
+        if ( method_exists( $connection , 'errorInfo' ) ) {
+            if ( !$connection->errorInfo() ) {
+                return $user;
+            } else {
+                return false;
+            }
         }
 
     }

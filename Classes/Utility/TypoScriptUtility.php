@@ -2,6 +2,7 @@
 
 namespace JVelletti\JvAdd2group\Utility;
 
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
@@ -14,7 +15,7 @@ class TypoScriptUtility
      */
     public static function getTypoScriptArray($extension='jv_add2group'): array
     {
-        $configurationManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Configuration\ConfigurationManager::class);
+        $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $typoscript =  $configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT, $extension ) ;
 
