@@ -137,16 +137,10 @@ class Add2groupController extends ActionController
             }
 
             if( $this->settings['debug'] == 1 ) {
-                if(MigrationUtility::greaterVersion(10)) {
-                    $this->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
-                } else {
-                    // @extensionScannerIgnoreLine
-                    $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
-                }
+                $this->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
 
                 $this->addFlashMessage( "Debug: " .   $debug  , "debug" , AbstractMessage::INFO , true) ;
             }
-            $this->redirect("show" , null, null , array("hash" => $user['tstamp'] ) ) ;
             return( new ForwardResponse("show"))
                 ->withArguments( array("hash" => $user['tstamp'] )
                 ) ;
