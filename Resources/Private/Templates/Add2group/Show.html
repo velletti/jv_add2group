@@ -7,7 +7,7 @@
 			<f:if condition="{flashMessages}">
 
 
-					<f:switch expression="{flashMessages.0.severity}">
+					<f:switch expression="{flashMessages.0.severity.value}">
 						<f:case value="0">
 							<f:variable name="alertClass">alert-success</f:variable>
 							<f:variable name="alertIcon">far fa-check-square</f:variable>
@@ -89,6 +89,8 @@
 			User: <f:if condition="{user}">Yes! Uid: {user.uid} With Groups: {user.usergroup}</f:if><br>
 			May not have Groups: {mayNotHaveGroups}<br>
 			Must have Groups: {mustHaveGroups}<br>
+			Hash: {hash}<br>
+			Session: {session}<br>
 		</f:if>
 
 	</f:section>

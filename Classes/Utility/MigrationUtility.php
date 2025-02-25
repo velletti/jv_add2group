@@ -5,6 +5,7 @@ namespace JVelletti\JvAdd2group\Utility;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 
 class MigrationUtility
 {
@@ -24,6 +25,36 @@ class MigrationUtility
            return $GLOBALS['TSFE']->fe_user->getSessionId() ;
         }
     }
+    public static function getUserHash(?RequestInterface $request)
+    {
+        $feuser = self::getUser($request);
+        if ( $feuser) {
+            return (string)$feuser['uid'] . (string)$feuser['password'] ;
+        }
+        return false ;
+    }
+    public static function getUser(?RequestInterface $request)
+    {
+        if( self::greaterVersion(10)  ) {
+            /** @var \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication $feuser */
+            $feuser = $request->getAttribute('frontend.user');
+            return ($feuser ? $feuser->user : null) ;
+        } else {
+            // @extensionScannerIgnoreLine
+            return $GLOBALS['TSFE']->fe_user->user ;
+        }
+    }
+    public static function getUserGroups($request)
+    {
+        if( self::greaterVersion(10)  ) {
+            $feuser = $request->getAttribute('frontend.user');
+            return ($feuser->user ? $feuser->user['usergroup'] : '' );
+        } else {
+            // @extensionScannerIgnoreLine
+            return $GLOBALS['TSFE']->fe_user->user['usergroup'] ;
+        }
+    }
+
 
     /**
      * Takes comma-separated lists and removes all duplicates

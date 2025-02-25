@@ -43,16 +43,26 @@ class Add2groupController extends ActionController
      */
     public function showAction(): ResponseInterface
     {
-        $user = $GLOBALS['TSFE']->fe_user->user ;
+        $user = MigrationUtility::getUser( $this->request ) ;
         $this->view->assign('user', $user);
-        $this->view->assign('groups', $user['usergroup']);
+        $this->view->assign('groups', MigrationUtility::getUserGroups( $this->request ) );
         $this->settings['mayNotHaveGroups'] = GeneralUtility::trimExplode("," , $this->settings['mayNotHaveGroups']  , true ) ;
         $this->settings['mustHaveGroups'] = GeneralUtility::trimExplode("," , $this->settings['mustHaveGroups']  , true ) ;
         $this->view->assign('settings', $this->settings);
         $obj = $this->configurationManager->getContentObject()->data ;
 
-        $this->view->assign('uid', $obj['uid']);
-        $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . "JVE" . MigrationUtility::getUserSessionId() ));
+        $uid = false ;
+        if( $this->request->hasArgument('uid') &&$this->request->hasArgument('done')) {
+            $uid = $this->request->getArgument('uid');
+            $this->view->assign('done', true );
+        } else {
+            $uid = $obj['uid'] ;
+        }
+        $this->view->assign('uid', $uid );
+        $this->view->assign('server', ($_SERVER['SERVER_NAME'] ?? '' ));
+        $this->view->assign('ddev', ($_ENV['DDEV_PROJECT'] ?? false )); ;
+        $this->view->assign('hash', hash( "sha256" , $obj['tstamp'] . "JVE" . MigrationUtility::getUserHash($this->request) ));
+        $this->view->assign('session', $obj['tstamp'] . "JVE" . MigrationUtility::getUserHash($this->request) );
         return $this->htmlResponse();
 
     }
@@ -67,7 +77,7 @@ class Add2groupController extends ActionController
         $debug= "" ;
         $obj = $this->configurationManager->getContentObject()->data ;
 
-        $user = $GLOBALS['TSFE']->fe_user->user ;
+        $user = MigrationUtility::getUser( $this->request ) ;
         if( !is_array($user)) {
             return( new ForwardResponse("show")) ;
         }
@@ -79,12 +89,17 @@ class Add2groupController extends ActionController
                 $uid = false ;
             }
         }
-        if( $uid && $this->request->hasArgument('hash')) {
-            $uid = $this->request->getArgument('hash') ;
+        $hash = false ;
+        if( $this->request->hasArgument('hash')) {
+            $hash = $this->request->getArgument('hash');
+            $debug .= " |  Got Hash=" . $hash ;
+        }
+        if( $uid && $hash ) {
+            $uid = $hash ;
             $debug .= " |  Got Hash=" . $uid ;
-            if ( $uid !=  hash( "sha256" , $obj['tstamp'] . "JVE" .  MigrationUtility::getUserSessionId() ) ) {
+            if ( $uid !=  hash( "sha256" , $obj['tstamp'] . "JVE" .  MigrationUtility::getUserHash($this->request) ) ) {
                 $uid = false ;
-                $debug .= " |   Hash NOT VALID !! for tstamp/crdate : " . $obj['tstamp'] . " | " . $user['crdate']  ;
+                $debug .= " |   Hash NOT VALID !! for tstamp/crdate : " . $obj['tstamp'] . " | " . MigrationUtility::getUserHash($this->request)  ;
                 $this->addFlashMessage("Hash not valid." , null , AbstractMessage::ERROR) ;
             }
         } else {
@@ -94,8 +109,8 @@ class Add2groupController extends ActionController
         }
         if( $uid ) {
 
-            $debug .= " |   Add/remove Grups from user uid: "  . (int)$GLOBALS['TSFE']->fe_user->user['uid']   ;
-            $debug .= " |   Current Groups: "  . $GLOBALS['TSFE']->fe_user->user['usergroup']  ;
+            $debug .= " |   Add/remove Grups from user uid: "  . (int)$user['uid']   ;
+            $debug .= " |   Current Groups: "  . MigrationUtility::getUserGroups( $this->request )   ;
             $debug .= " |   Add Group(s): " . $this->settings['willGetGroups'] ;
             $debug .= " |   Remove Group(s): " . $this->settings['willLooseGroups'] ;
             $debug .= " |   additonal Classes (s): " . $this->settings['classname'] ;
@@ -109,13 +124,19 @@ class Add2groupController extends ActionController
                     }
                 }
             }
-            $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups'] ) , $hookClassesSettings );
+            $feuser = $this->updateUserGroupField(trim($this->settings['willGetGroups']) ,trim($this->settings['willLooseGroups'] ) , $hookClassesSettings , $user , MigrationUtility::getUserGroups( $this->request ) ) ;
 
             $msg = trim( $this->settings['successMsg']) ;
             if ($feuser) {
 
                 if(MigrationUtility::greaterVersion(10)) {
                     // toDo restart the session in New Style
+
+                    // 3) Re-create and store the user session so TYPO3 picks up the new data:
+                    $updatedSessionData = $GLOBALS['TSFE']->fe_user->createUserSession($feuser);
+                    $GLOBALS['TSFE']->fe_user->user = $feuser;
+                    $GLOBALS['TSFE']->fe_user->loginSessionStarted = true;
+                    $GLOBALS['TSFE']->fe_user->storeSessionData();  // pushes changes into the session
 
                 } else {
                     $GLOBALS['TSFE']->__set('loginUser', 1);
@@ -133,16 +154,17 @@ class Add2groupController extends ActionController
                 if( strlen( $msg ) > 1  && isset( $this->settings['nothingToDoMessage'] ) && !empty( $this->settings['nothingToDoMessage']) ) {
                     $this->addFlashMessage($this->settings['nothingToDoMessage'] , null , AbstractMessage::ERROR) ;
                 }
+                return $this->redirect("show" , null , null , array("done" => random_bytes(16) ) ) ;
 
             }
 
-            if( $this->settings['debug'] == 1 ) {
+            if( $this->settings['debug'] == 1 || isset( $_ENV['DDEV_PROJECT']) ) {
                 $this->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
 
                 $this->addFlashMessage( "Debug: " .   $debug  , "debug" , AbstractMessage::INFO , true) ;
             }
             return( new ForwardResponse("show"))
-                ->withArguments( array("hash" => $user['tstamp'] )
+                ->withArguments( array("done" => random_bytes(16) )
                 ) ;
         } else {
             return( new ForwardResponse("show")) ;
@@ -150,10 +172,8 @@ class Add2groupController extends ActionController
 
     }
 
-    private function updateUserGroupField( $addGroups , $removeGroups , $HookClasses ) {
-        $user = $GLOBALS['TSFE']->fe_user->user ;
-        $uid = (int)$GLOBALS['TSFE']->fe_user->user['uid'] ;
-        $oldGroups = $GLOBALS['TSFE']->fe_user->user['usergroup'] ;
+    private function updateUserGroupField( $addGroups , $removeGroups , $HookClasses , $user , $oldGroups ) {
+        $uid = ( $user["uid"] ? (int)$user["uid"] : 0 ) ;
         $oldGroups = MigrationUtility::uniqueList($oldGroups) ;
         $newGroups = MigrationUtility::uniqueList($oldGroups . "," . $addGroups) ;
         $removeGroupsArray= GeneralUtility::trimExplode("," , $removeGroups , true) ;
