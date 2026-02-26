@@ -8,10 +8,10 @@ $EM_CONF['jv_add2group'] = [
     'author' => 'Joerg Velletti',
     'author_email' => 'typo3@velletti.de',
     'state' => 'beta',
-    'version' => '11.5.12',
+    'version' => '13.4.1',
     'constraints' => [
         'depends' => [
-            'typo3' => '9.5.0-11.5.99',
+            'typo3' => '13.4.0-13.4.99',
         ],
         'conflicts' => [],
         'suggests' => [],
