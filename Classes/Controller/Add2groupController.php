@@ -32,7 +32,10 @@ use Psr\Http\Message\ResponseInterface;
 class Add2groupController extends ActionController
 {
 
-    public function initializeAction()
+    public function __construct(private readonly \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
+    {
+    }
+    public function initializeAction(): void
     {
         parent::initializeAction();
     }
@@ -49,7 +52,7 @@ class Add2groupController extends ActionController
         $this->settings['mayNotHaveGroups'] = GeneralUtility::trimExplode("," , $this->settings['mayNotHaveGroups']  , true ) ;
         $this->settings['mustHaveGroups'] = GeneralUtility::trimExplode("," , $this->settings['mustHaveGroups']  , true ) ;
         $this->view->assign('settings', $this->settings);
-        $obj = $this->configurationManager->getContentObject()->data ;
+        $obj = $this->request->getAttribute('currentContentObject')->data ;
 
         $uid = false ;
         if( $this->request->hasArgument('uid') &&$this->request->hasArgument('done')) {
@@ -75,7 +78,7 @@ class Add2groupController extends ActionController
     public function addAction()
     {
         $debug= "" ;
-        $obj = $this->configurationManager->getContentObject()->data ;
+        $obj = $this->request->getAttribute('currentContentObject')->data ;
 
         $user = MigrationUtility::getUser( $this->request ) ;
         if( !is_array($user)) {
@@ -100,16 +103,16 @@ class Add2groupController extends ActionController
             if ( $uid !=  hash( "sha256" , $obj['tstamp'] . "JVE" .  MigrationUtility::getUserHash($this->request) ) ) {
                 $uid = false ;
                 $debug .= " |   Hash NOT VALID !! for tstamp/crdate : " . $obj['tstamp'] . " | " . MigrationUtility::getUserHash($this->request)  ;
-                $this->addFlashMessage("Hash not valid." , null , AbstractMessage::ERROR) ;
+                $this->addFlashMessage("Hash not valid." , '' , \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR) ;
             }
         } else {
             $uid = false ;
             $debug .= " |   got no Hash "   ;
-            $this->addFlashMessage("Got no hash" , null , AbstractMessage::ERROR) ;
+            $this->addFlashMessage("Got no hash" , '' , \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR) ;
         }
         if( $uid ) {
 
-            $debug .= " |   Add/remove Grups from user uid: "  . (int)$user['uid']   ;
+            $debug .= " |   Add/remove Groups from user uid: "  . (int)$user['uid']   ;
             $debug .= " |   Current Groups: "  . MigrationUtility::getUserGroups( $this->request )   ;
             $debug .= " |   Add Group(s): " . $this->settings['willGetGroups'] ;
             $debug .= " |   Remove Group(s): " . $this->settings['willLooseGroups'] ;
@@ -129,39 +132,29 @@ class Add2groupController extends ActionController
             $msg = trim( $this->settings['successMsg']) ;
             if ($feuser) {
 
-                if(MigrationUtility::greaterVersion(10)) {
-                    // toDo restart the session in New Style
+                // 3) Re-create and store the user session so TYPO3 picks up the new data:
+                $updatedSessionData = $this->request->getAttribute('frontend.user')->createUserSession($feuser);
+                $this->request->getAttribute('frontend.user')->user = $feuser;
+                $this->request->getAttribute('frontend.user')->storeSessionData();  // pushes changes into the session
 
-                    // 3) Re-create and store the user session so TYPO3 picks up the new data:
-                    $updatedSessionData = $GLOBALS['TSFE']->fe_user->createUserSession($feuser);
-                    $GLOBALS['TSFE']->fe_user->user = $feuser;
-                    $GLOBALS['TSFE']->fe_user->loginSessionStarted = true;
-                    $GLOBALS['TSFE']->fe_user->storeSessionData();  // pushes changes into the session
-
-                } else {
-                    $GLOBALS['TSFE']->__set('loginUser', 1);
-                    $GLOBALS['TSFE']->fe_user->start();
-                    $GLOBALS["TSFE"]->fe_user->createUserSession($feuser);
-                    $GLOBALS["TSFE"]->fe_user->loginSessionStarted = TRUE;
-                }
 
 
                 if( strlen( $msg ) > 1  ) {
-                    $this->addFlashMessage($msg , null , AbstractMessage::OK ) ;
+                    $this->addFlashMessage($msg , '' , \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::OK ) ;
                 }
             } else {
                 $debug .= " |    user had Groups already  "    ;
                 if( strlen( $msg ) > 1  && isset( $this->settings['nothingToDoMessage'] ) && !empty( $this->settings['nothingToDoMessage']) ) {
-                    $this->addFlashMessage($this->settings['nothingToDoMessage'] , null , AbstractMessage::ERROR) ;
+                    $this->addFlashMessage($this->settings['nothingToDoMessage'] , '' , \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR) ;
                 }
                 return $this->redirect("show" , null , null , array("done" => random_bytes(16) ) ) ;
 
             }
 
             if( $this->settings['debug'] == 1 || isset( $_ENV['DDEV_PROJECT']) ) {
-                $this->getFlashMessageQueue()->getAllMessagesAndFlush(AbstractMessage::OK) ;
+                $this->getFlashMessageQueue()->getAllMessagesAndFlush(\TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::OK) ;
 
-                $this->addFlashMessage( "Debug: " .   $debug  , "debug" , AbstractMessage::INFO , true) ;
+                $this->addFlashMessage( "Debug: " .   $debug  , "debug" , \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::INFO , true) ;
             }
             return( new ForwardResponse("show"))
                 ->withArguments( array("done" => random_bytes(16) )
@@ -197,7 +190,7 @@ class Add2groupController extends ActionController
         }
 
         /** @var ConnectionPool $connectionPool */
-        $connectionPool = GeneralUtility::makeInstance( "TYPO3\\CMS\\Core\\Database\\ConnectionPool");
+        $connectionPool = $this->connectionPool;
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $connectionPool->getQueryBuilderForTable('fe_users') ;
 
@@ -224,15 +217,15 @@ class Add2groupController extends ActionController
     }
 
     /**
-
-    /**
-     * action removeAction
-     *
-     * @return void
-     */
-    public function removeAction()
+    
+        /**
+    * action removeAction
+    *
+    * @return \Psr\Http\Message\ResponseInterface
+    */
+    public function removeAction(): \Psr\Http\Message\ResponseInterface
     {
-        $this->redirect("show");
+        return $this->redirect("show");
     }
 
 }

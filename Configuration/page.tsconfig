@@ -1,0 +1,16 @@
+mod {
+    wizards.newContentElement.wizardItems.special {
+        elements {
+            connector {
+                iconIdentifier = jv_add2group-plugin-add2group
+                title = LLL:EXT:jv_add2group/Resources/Private/Language/locallang.xlf:add2group.name
+                description = LLL:EXT:jv_add2group/Resources/Private/Language/locallang.xlf:add2group.description
+                tt_content_defValues {
+                    CType = jvadd2group_add2group
+                }
+            }
+        }
+        show = *
+    }
+
+}

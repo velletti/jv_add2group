@@ -1,155 +1,130 @@
 <T3DataStructure>
-	<sheets>
-		<sDEF>
-			<ROOT>
-				<TCEforms>
-					<sheetTitle>Configuration</sheetTitle>
-				</TCEforms>
-				<type>array</type>
-				<el>
-					<settings.title>
-						<TCEforms>
-							<label>Titel</label>
-							<config>
-								<type>input</type>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <sheetTitle>Configuration</sheetTitle>
+                <type>array</type>
+                <el>
+                    <settings.title>
+                        <label>Titel</label>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </settings.title>
+                    <settings.cssClass>
+                        <label>Css style classname</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
 
-							</config>
-						</TCEforms>
-					</settings.title>
-					<settings.cssClass>
-						<TCEforms>
-							<label>Css style classname</label>
-							<config>
-								<type>user</type>
-								<renderType>JvAdd2groupCustomLayoutElement</renderType>
-								<size>30</size>
-								<itemsProcFunc>JVelletti\JvAdd2group\UserFunc\Flexforms->showCssClasses</itemsProcFunc>
-								<parameters>
-									<settingsType>cssClass</settingsType>
-								</parameters>
-							</config>
-						</TCEforms>
-					</settings.cssClass>
-					<settings.description>
-						<TCEforms>
-							<label>Description</label>
-							<config>
-								<type>text</type>
-								<cols>30</cols>
-								<rows>8</rows>
-								<enableRichtext>true</enableRichtext>
-							</config>
-						</TCEforms>
-					</settings.description>
-					<settings.button>
-						<TCEforms>
-							<label>Button</label>
-							<config>
-								<type>input</type>
+                            <itemsProcFunc>JVelletti\JvAdd2group\UserFunc\Flexforms->showCssClasses</itemsProcFunc>
 
-							</config>
-						</TCEforms>
-					</settings.button>
-					<settings.mustHaveGroups>
-						<TCEforms>
-							<label>mustHaveGroups</label>
-							<config>
-								<type>select</type>
-								<renderType>selectMultipleSideBySide</renderType>
+                        </config>
+                    </settings.cssClass>
+                    <settings.description>
+                        <label>Description</label>
+                        <config>
+                            <type>text</type>
+                            <cols>30</cols>
+                            <rows>8</rows>
+                            <enableRichtext>true</enableRichtext>
+                        </config>
+                    </settings.description>
+                    <settings.button>
+                        <label>Button</label>
+                        <config>
+                            <type>input</type>
 
-								<foreign_table>fe_groups</foreign_table>
-								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
-								<allowed>fe_groups</allowed>
-								<size>4</size>
-								<minitems>0</minitems>
-								<maxitems>10</maxitems>
+                        </config>
+                    </settings.button>
+                    <settings.mustHaveGroups>
+                        <label>mustHaveGroups</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectMultipleSideBySide</renderType>
 
-							</config>
-						</TCEforms>
-					</settings.mustHaveGroups>
-					<settings.mayNotHaveGroups>
-						<TCEforms>
-							<label>mayNotHaveGroup</label>
-							<config>
-								<type>select</type>
-								<renderType>selectMultipleSideBySide</renderType>
-								<foreign_table>fe_groups</foreign_table>
-								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
-								<allowed>fe_groups</allowed>
-								<size>4</size>
-								<minitems>0</minitems>
-								<maxitems>10</maxitems>
+                            <foreign_table>fe_groups</foreign_table>
+                            <foreign_table_where>ORDER BY fe_groups.title</foreign_table_where>
+                            <allowed>fe_groups</allowed>
+                            <size>4</size>
+                            <minitems>0</minitems>
+                            <maxitems>10</maxitems>
 
-							</config>
-						</TCEforms>
-					</settings.mayNotHaveGroups>
-					<settings.willGetGroups>
-						<TCEforms>
-							<label>willGetGroups</label>
-							<config>
-								<type>select</type>
-								<renderType>selectMultipleSideBySide</renderType>
-								<hideSuggest>false</hideSuggest>
-								<foreign_table>fe_groups</foreign_table>
-								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
-								<allowed>fe_groups</allowed>
-								<size>4</size>
-								<minitems>0</minitems>
-								<maxitems>10</maxitems>
+                        </config>
+                    </settings.mustHaveGroups>
+                    <settings.mayNotHaveGroups>
+                        <label>mayNotHaveGroup</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectMultipleSideBySide</renderType>
+                            <foreign_table>fe_groups</foreign_table>
+                            <foreign_table_where>ORDER BY fe_groups.title</foreign_table_where>
+                            <allowed>fe_groups</allowed>
+                            <size>4</size>
+                            <minitems>0</minitems>
+                            <maxitems>10</maxitems>
 
-							</config>
-						</TCEforms>
-					</settings.willGetGroups>
-					<settings.willLooseGroups>
-						<TCEforms>
-							<label>willLooseGroups</label>
-							<config>
-								<type>select</type>
-								<renderType>selectMultipleSideBySide</renderType>
-								<hideSuggest>false</hideSuggest>
-								<foreign_table>fe_groups</foreign_table>
-								<foreign_table_where> ORDER BY fe_groups.title</foreign_table_where>
-								<allowed>fe_groups</allowed>
-								<size>4</size>
-								<minitems>0</minitems>
-								<maxitems>10</maxitems>
+                        </config>
+                    </settings.mayNotHaveGroups>
+                    <settings.willGetGroups>
+                        <label>willGetGroups</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectMultipleSideBySide</renderType>
+                            <hideSuggest>false</hideSuggest>
+                            <foreign_table>fe_groups</foreign_table>
+                            <foreign_table_where>ORDER BY fe_groups.title</foreign_table_where>
+                            <allowed>fe_groups</allowed>
+                            <size>4</size>
+                            <minitems>0</minitems>
+                            <maxitems>10</maxitems>
 
-							</config>
-						</TCEforms>
-					</settings.willLooseGroups>
+                        </config>
+                    </settings.willGetGroups>
+                    <settings.willLooseGroups>
+                        <label>willLooseGroups</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectMultipleSideBySide</renderType>
+                            <hideSuggest>false</hideSuggest>
+                            <foreign_table>fe_groups</foreign_table>
+                            <foreign_table_where>ORDER BY fe_groups.title</foreign_table_where>
+                            <allowed>fe_groups</allowed>
+                            <size>4</size>
+                            <minitems>0</minitems>
+                            <maxitems>10</maxitems>
 
-					<settings.successMsg>
-						<TCEforms>
-							<label>Success Message</label>
-							<config>
-								<type>text</type>
-								<cols>30</cols>
-								<rows>4</rows>
+                        </config>
+                    </settings.willLooseGroups>
 
-							</config>
-						</TCEforms>
-					</settings.successMsg>
+                    <settings.successMsg>
+                        <label>Success Message</label>
+                        <config>
+                            <type>text</type>
+                            <cols>30</cols>
+                            <rows>4</rows>
 
-					<settings.classnames>
-						<TCEforms>
-							<label>Class->function, will be called after user pressed button</label>
-							<config>
-								<type>select</type>
-								<renderType>selectMultipleSideBySide</renderType>
-								<itemsProcFunc>JVelletti\JvAdd2group\UserFunc\Flexforms->showClasses</itemsProcFunc>
+                        </config>
+                    </settings.successMsg>
 
-								<items>
+                    <settings.classnames>
+                        <label>Class->function, will be called after user pressed button</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectMultipleSideBySide</renderType>
+                            <itemsProcFunc>JVelletti\JvAdd2group\UserFunc\Flexforms->showClasses</itemsProcFunc>
 
-								</items>
-								<size>6</size>
-								<minitems>0</minitems>
-								<maxitems>10</maxitems>
+                            <items>
 
-							</config>
-						</TCEforms>
-					</settings.classnames>
-				</el>
-			</ROOT>
-		</sDEF>
-	</sheets>
+                            </items>
+                            <size>6</size>
+                            <minitems>0</minitems>
+                            <maxitems>10</maxitems>
+
+                        </config>
+                    </settings.classnames>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
 </T3DataStructure>

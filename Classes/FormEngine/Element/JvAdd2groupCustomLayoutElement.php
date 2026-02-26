@@ -18,6 +18,8 @@ class JvAdd2groupCustomLayoutElement extends AbstractFormElement
      */
     protected array $data = [];
 
+    protected NodeFactory $nodeFactory;
+
     /**
      * Container objects give $nodeFactory down to other containers.
      *
@@ -26,7 +28,8 @@ class JvAdd2groupCustomLayoutElement extends AbstractFormElement
      */
     public function __construct(NodeFactory $nodeFactory, array $data  = [])
     {
-        parent::__construct($nodeFactory, $data);
+        $this->nodeFactory = $nodeFactory;
+        $this->data = $data;
     }
 
     public function render(): array

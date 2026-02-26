@@ -8,13 +8,6 @@ plugin.tx_jvadd2group {
         layoutRootPaths.0 = EXT:jv_add2group/Resources/Private/Layouts/
         layoutRootPaths.1 = {$plugin.tx_jvadd2group.view.layoutRootPath}
     }
-    features {
-        skipDefaultArguments = 1
-        # if set to 1, the enable fields are ignored in BE context
-        ignoreAllEnableFieldsInBe = 0
-        # Should be on by default, but can be disabled if all action in the plugin are uncached
-        requireCHashArgumentForActionArguments = 0
-    }
     mvc {
         callDefaultActionIfActionCantBeResolved = 1
     }
@@ -22,7 +15,7 @@ plugin.tx_jvadd2group {
     settings.debug = 0
 
     // in case of errors in Hooks, a  message may appear.
-    settings.nothingToDoMessage = Nothing To Do
+    # settings.nothingToDoMessage = Nothing To Do
 
     settings.cssClasses {
         0 {

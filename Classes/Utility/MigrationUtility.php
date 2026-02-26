@@ -22,7 +22,7 @@ class MigrationUtility
             return false ;
         } else {
             // @extensionScannerIgnoreLine
-           return $GLOBALS['TSFE']->fe_user->getSessionId() ;
+           return $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user')->getSessionId() ;
         }
     }
     public static function getUserHash(?RequestInterface $request)
@@ -41,7 +41,7 @@ class MigrationUtility
             return ($feuser ? $feuser->user : null) ;
         } else {
             // @extensionScannerIgnoreLine
-            return $GLOBALS['TSFE']->fe_user->user ;
+            return $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user')->user ;
         }
     }
     public static function getUserGroups($request)
@@ -51,7 +51,7 @@ class MigrationUtility
             return ($feuser->user ? $feuser->user['usergroup'] : '' );
         } else {
             // @extensionScannerIgnoreLine
-            return $GLOBALS['TSFE']->fe_user->user['usergroup'] ;
+            return $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user')->user['usergroup'] ;
         }
     }
 
