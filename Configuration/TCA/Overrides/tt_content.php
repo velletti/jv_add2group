@@ -2,7 +2,9 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-if (!defined ('TYPO3')) die ('Access denied.');
+if (!defined ('TYPO3')) {
+    die ('Access denied in ' . __FILE__ ) ;
+}	
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin('JvAdd2group', 'Add2group', 'LLL:EXT:jv_add2group/Resources/Private/Language/locallang.xlf:add2group.name', 'jv_add2group-plugin-add2group');
 ExtensionManagementUtility::addToAllTCAtypes(

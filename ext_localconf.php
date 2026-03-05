@@ -1,5 +1,6 @@
 <?php
-defined('TYPO3') || die('Access denied.');
+defined('TYPO3') || die ('Access denied in ' . __FILE__ )
+;
 
 call_user_func(
     function()
